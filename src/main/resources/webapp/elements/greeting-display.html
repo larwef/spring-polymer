@@ -1,0 +1,25 @@
+<link rel="import" href="../js/bower_components/polymer/polymer.html"></link>
+<!-- <link rel="stylesheet" type="text/css" href="../css/greeting-display.css"/> -->
+
+<dom-module id="greeting-display">
+    <template>
+        <div>
+            <h1>Greetings</h1>
+            <p>The ID is {{id}}</p>
+            <p>The content is {{content}}</p>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: "greeting-display",
+            properties: {
+                id: String,
+                content: String,
+            },
+            attached: function() {
+                this.id = this.id;
+                this.content = this.content;
+            }
+        });
+    </script>
+</dom-module>

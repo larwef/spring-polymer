@@ -1,0 +1,12 @@
+:root {
+    --color-primary-0: #317D8B;
+    --color-primary-1: #80BAC5;
+    --color-primary-2: #4D929F;
+    --color-primary-3: #196E7E;
+    --color-primary-4: #0C5562;
+}
+
+html, body {
+  height: 100%;
+  margin: 0
+}

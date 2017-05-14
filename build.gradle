@@ -1,0 +1,45 @@
+plugins {
+    id "java"
+    id "application"
+    id "com.github.johnrengelman.shadow" version "1.2.4"
+}
+
+group "no.wefald"
+version "1.0-SNAPSHOT"
+
+sourceCompatibility = 1.5
+
+def jettyVersion = "9.4.0.v20161208"
+def springVersion = "4.3.6.RELEASE"
+def thymeleafVersion = "3.0.3.RELEASE"
+
+mainClassName = "springPolymer.SpringPolymerMain"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    testCompile group: "junit", name: "junit", version: "4.11"
+
+    compile group: "org.eclipse.jetty", name: "jetty-server", version: "$jettyVersion"
+    compile group: "org.eclipse.jetty", name: "jetty-servlet", version: "$jettyVersion"
+
+    compile group: "org.springframework", name: "spring-webmvc", version: "$springVersion"
+
+    compile group: "org.thymeleaf", name: "thymeleaf-spring4", version: "$thymeleafVersion"
+
+    compile group: "org.constretto", name: "constretto-core", version: "2.2.3"
+    compile group: "org.slf4j", name: "slf4j-simple", version: "1.7.22"
+}
+
+shadowJar {
+    mergeServiceFiles()
+    exclude "META-INF/*.DSA"
+    exclude "META-INF/*.RSA"
+
+    manifest {
+        attributes "Main-Class": mainClassName
+    }
+}
