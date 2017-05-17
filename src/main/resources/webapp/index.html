@@ -1,17 +1,15 @@
-<!doctype html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <title>SpringPolymer</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webapp/css/main.css}" />
     <script type="text/javascript" th:src="@{/webapp/js/bower_components/webcomponentsjs/webcomponents.min.js}"></script>
 
-    <link rel="import" th:href="@{/webapp/elements/greeting-display.html}"></link>
+    <link rel="import" th:href="@{/webapp/elements/my-element.html}"></link>
 </head>
 
 <body>
-    <greeting-display th:id=${name} content="Some content"></greeting-display>
+    <my-element th:path=${path} th:query=${query}></my-element>
 </body>
 
 </html>
