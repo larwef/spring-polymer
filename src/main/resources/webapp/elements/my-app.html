@@ -1,0 +1,110 @@
+<link rel="import" href="../js/bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../js/bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../js/bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../js/bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../js/bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../js/bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../js/bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../js/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../js/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="app-theme.html">
+<link rel="import" href="my-icons.html">
+
+<link rel="lazy-import" href="page1.html">
+<link rel="lazy-import" href="page2.html">
+<link rel="lazy-import" href="page3.html">
+<link rel="lazy-import" href="404.html">
+
+<dom-module id="my-app">
+    <template>
+    <style include="app-theme">
+        .main-header {
+            color: var(--text-primary-color);
+            font-weight: bold;
+            background-color: var(--default-primary-color);
+        }
+
+        .drawer-list {
+            margin: 0 20px;
+        }
+
+        .drawer-list a {
+            display: block;
+            padding: 0 16px;
+            text-decoration: none;
+            color: var(--text-primary-color);
+            line-height: 40px;
+        }
+
+        .drawer-list a {
+          display: block;
+          padding: 0 16px;
+          text-decoration: none;
+          color: var(--app-secondary-color);
+          line-height: 40px;
+        }
+
+        .drawer-list a.iron-selected {
+          color: black;
+          font-weight: bold;
+        }
+
+        app-drawer-layout:not([narrow]) [drawer-toggle] {
+            display: none;
+        }
+
+        app-drawer {
+            background-color: var(--drawer-menu-color);
+        }
+    </style>
+    <app-drawer-layout>
+        <app-drawer swipe-open slot="drawer">
+            <app-header-layout has-scrolling-region>
+                <app-header class="menu-header" waterfall fixed slot="header">
+                    <app-toolbar>
+                        <div main-title>Menu</div>
+                    </app-toolbar>
+                </app-header>
+
+                <iron-selector attr-for-selected="name" selected="page1" class="drawer-list" role="navigation">
+                    <a name="page1">Page 1</a>
+                    <a name="page2">Page 2</a>
+                    <a name="page3">Page 3</a>
+                </iron-selector>
+        </app-header-layout>
+        </app-drawer>
+
+        <app-header-layout>
+            <app-header class="main-header" condenses reveals effects="waterfall" slot="header">
+                <app-toolbar>
+                    <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+                    <div spacer main-title>My App</div>
+                </app-toolbar>
+            </app-header>
+            <iron-pages
+                selected="page1"
+                attr-for-selected="name"
+                fallback-selection="404"
+                role="main">
+                <my-view1 name="page1"></my-view1>
+                <my-view2 name="page2"></my-view2>
+                <my-view3 name="page3"></my-view3>
+                <my-view404 name="404"></my-view404>
+              </iron-pages>
+          </app-header-layout>
+      </app-drawer-layout>
+  </template>
+
+  <script>
+  class MyApp extends Polymer.Element {
+      static get is() {
+          return 'my-app';
+      }
+
+      constructor() {
+          super();
+      }
+  }
+  window.customElements.define(MyApp.is, MyApp);
+  </script>
+</dom-module>
