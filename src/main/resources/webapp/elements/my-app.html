@@ -1,4 +1,7 @@
 <link rel="import" href="../js/bower_components/polymer/polymer-element.html">
+<link rel="import" href="../js/bower_components/app-route/app-location.html">
+<link rel="import" href="../js/bower_components/app-route/app-route.html">
+<link rel="import" href="../js/bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../js/bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../js/bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../js/bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
@@ -8,17 +11,17 @@
 <link rel="import" href="../js/bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../js/bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../js/bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="app-theme.html">
+<link rel="import" href="shared-styles.html">
 <link rel="import" href="my-icons.html">
 
-<link rel="lazy-import" href="page1.html">
-<link rel="lazy-import" href="page2.html">
-<link rel="lazy-import" href="page3.html">
-<link rel="lazy-import" href="404.html">
+<link rel="lazy-import" href="web-page1.html">
+<link rel="lazy-import" href="web-page2.html">
+<link rel="lazy-import" href="web-page3.html">
+<link rel="lazy-import" href="web-page404.html">
 
 <dom-module id="my-app">
     <template>
-    <style include="app-theme">
+    <style include="shared-styles">
         .main-header {
             color: var(--text-primary-color);
             font-weight: bold;
@@ -58,8 +61,16 @@
             background-color: var(--drawer-menu-color);
         }
     </style>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="[[rootPattern]]:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
     <app-drawer-layout>
-        <app-drawer swipe-open slot="drawer">
+        <app-drawer id="drawer" swipe-open slot="drawer">
             <app-header-layout has-scrolling-region>
                 <app-header class="menu-header" waterfall fixed slot="header">
                     <app-toolbar>
@@ -67,10 +78,10 @@
                     </app-toolbar>
                 </app-header>
 
-                <iron-selector attr-for-selected="name" selected="page1" class="drawer-list" role="navigation">
-                    <a name="page1">Page 1</a>
-                    <a name="page2">Page 2</a>
-                    <a name="page3">Page 3</a>
+                <iron-selector attr-for-selected="name" selected="[[page]]" class="drawer-list" role="navigation">
+                    <a name="page1" href="page1">Page 1</a>
+                    <a name="page2" href="page2">Page 2</a>
+                    <a name="page3" href="page3">Page 3</a>
                 </iron-selector>
         </app-header-layout>
         </app-drawer>
@@ -79,32 +90,77 @@
             <app-header class="main-header" condenses reveals effects="waterfall" slot="header">
                 <app-toolbar>
                     <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-                    <div spacer main-title>My App</div>
+                    <div main-title>My App</div>
                 </app-toolbar>
             </app-header>
             <iron-pages
-                selected="page1"
+                selected="[[page]]"
                 attr-for-selected="name"
-                fallback-selection="404"
+                fallback-selection="page404"
                 role="main">
-                <my-view1 name="page1"></my-view1>
-                <my-view2 name="page2"></my-view2>
-                <my-view3 name="page3"></my-view3>
-                <my-view404 name="404"></my-view404>
+                <web-page1 name="page1"></web-page1>
+                <web-page2 name="page2"></web-page2>
+                <web-page3 name="page3"></web-page3>
+                <web-page404 name="page404"></web-page404>
               </iron-pages>
           </app-header-layout>
       </app-drawer-layout>
   </template>
-  <script>
-  class MyApp extends Polymer.Element {
-      static get is() {
-          return 'my-app';
-      }
+    <script>
+        class MyApp extends Polymer.Element {
+            constructor() {
+                super();
+                this.rootPattern = (new URL(this.rootPath)).pathname;
+            }
 
-      constructor() {
-          super();
-      }
-  }
-  window.customElements.define(MyApp.is, MyApp);
-  </script>
+            static get is() {
+                return "my-app";
+            }
+
+            static get properties() {
+                return {
+                    page: {
+                        type: String,
+                        reflectToAttribute: true,
+                        observer: "_pageChanged",
+                    },
+                    rootPattern: String,
+                    routeData: Object,
+                    subroute: String,
+                };
+            }
+
+            static get observers() {
+              return [
+                "_routePageChanged(routeData.page)",
+              ];
+            }
+
+            _routePageChanged(page) {
+                if (page === undefined) {
+                    return;
+                }
+
+                this.page = page || "page1";
+
+                if (!this.$.drawer.persistent) {
+                    this.$.drawer.close();
+                }
+            }
+
+            _pageChanged(page) {
+                var resolvedPageUrl = this.resolveUrl("web-" + page + ".html");
+                Polymer.importHref(
+                    resolvedPageUrl,
+                    null,
+                    this._showPage404.bind(this),
+                    true);
+            }
+
+            _showPage404() {
+                this.page = "page404";
+            }
+        }
+        window.customElements.define(MyApp.is, MyApp);
+    </script>
 </dom-module>

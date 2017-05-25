@@ -1,0 +1,26 @@
+<link rel="import" href="../js/bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="web-page2">
+    <template>
+        <style include="shared-styles">
+        :host {
+            display: block;
+            padding: 10px;
+        }
+        </style>
+        <div class="card">
+            <h1>Page Two</h1>
+            <p>Your bones don't break, mine do. That's clear. Your cells react to bacteria and viruses differently than mine. You don't get sick, I do. That's also clear. But for some reason, you and I react the exact same way to water. We swallow it too fast, we choke. We get some in our lungs, we drown. However unreal it may seem, we are connected, you and I. We're on the same curve, just on opposite ends.</p>
+        </div>
+    </template>
+
+    <script>
+        class Page2 extends Polymer.Element {
+            static get is() {
+                return "web-page2";
+            }
+        }
+        window.customElements.define(Page2.is, Page2);
+    </script>
+</dom-module>

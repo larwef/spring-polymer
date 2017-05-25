@@ -1,0 +1,28 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="web-page404">
+    <template>
+    <style>
+      :host {
+        display: block;
+
+        padding: 10px 20px;
+      }
+    </style>
+    Oops you hit a 404. <a href="[[rootPath]]">Head back to home.</a>
+  </template>
+
+    <script>
+        class Page404 extends Polymer.Element {
+            static get is() {
+                return "web-page404";
+            }
+            static get properties() {
+                return {
+                    rootPath: String,
+                };
+            }
+        }
+        window.customElements.define(Page404.is, Page404);
+    </script>
+</dom-module>

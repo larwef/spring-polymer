@@ -1,0 +1,27 @@
+<link rel="import" href="../js/bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="web-page1">
+    <template>
+        <style include="shared-styles">
+        :host {
+            display: block;
+            padding: 10px;
+        }
+        </style>
+
+        <div class="card">
+            <h1>Page One</h1>
+            <p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.</p>
+        </div>
+    </template>
+
+    <script>
+        class Page1 extends Polymer.Element {
+            static get is() {
+                return "web-page1";
+            }
+        }
+        window.customElements.define(Page1.is, Page1);
+    </script>
+</dom-module>
